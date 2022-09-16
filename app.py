@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from fastapi import *
 import uvicorn
 import pymongo
-import json
 from fastapi.openapi.utils import get_openapi
 
 

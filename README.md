@@ -20,7 +20,7 @@ An API made with FastAPI python module to perform CRUD operations on database.
 ```
 | Parameter | Type  | Description                                    |
 | :-------- | :---- | :----------------------------------------------|
-| `roll_no` | `int` | **Required**. Roll No of student to fetch info |
+| `roll_no` | `int` | **Required**. Roll No of student to fetch info.|
 
 Takes student roll no and returns his/her all info from database.
 

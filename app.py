@@ -3,6 +3,8 @@ from fastapi import *
 import uvicorn
 import pymongo
 import json
+from fastapi.openapi.utils import get_openapi
+
 
 # Studentinfo Class
 
@@ -24,8 +26,8 @@ api = FastAPI()
 # CREATE OPRATION
 
 
-@api.post("/enterstudentinfo")
-def studentinfo_entry(entry: Studentinfo):
+@api.post("/enterstudentinfo",tags=["Endpoints"])
+def enter_studentinfo(entry: Studentinfo):
     stdinfo = {"Roll No": entry.roll_no, "Name": entry.name, "Class": entry.cl}
     collection.insert_one(stdinfo)
     return {
@@ -36,8 +38,8 @@ def studentinfo_entry(entry: Studentinfo):
 # READ OPERATION
 
 
-@api.get("/readstudentinfo")
-async def getstudent_info(roll_no: int):
+@api.get("/readstudentinfo",tags=["Endpoints"])
+async def read_studentinfo(roll_no: int):
     data = collection.find_one({"Roll No": roll_no}, {"_id": False})
     try:
         return {
@@ -53,7 +55,7 @@ async def getstudent_info(roll_no: int):
 # UPDATE OPERATION
 
 
-@api.put("/updatestudentinfo")
+@api.put("/updatestudentinfo",tags=["Endpoints"])
 async def update_studentinfo(rno: int, dtu: Studentinfo):
     collection.update_one({"Roll No": rno}, {"$set": {"Roll No": dtu.roll_no, "Name": dtu.name, "Class": dtu.cl}})
     return {
@@ -63,11 +65,30 @@ async def update_studentinfo(rno: int, dtu: Studentinfo):
 # DELETE OPERATION
 
 
-@api.delete("/deletestudentinfo")
+@api.delete("/deletestudentinfo",tags=["Endpoints"])
 async def delete_studentinfo(roll_no: int):
     d = collection.delete_one({"Roll No": roll_no})
     return {
         str("Deleted 1 record")
     }
+
+def custom_openapi():
+    if api.openapi_schema:
+        return api.openapi_schema
+    openapi_schema = get_openapi(
+        title="Student Management System API",
+        version="1.0.0",
+        description="Simple Rest API Made With FastAPI and MongoDB",
+        routes=api.routes,
+    )
+
+    openapi_schema["info"]["x-logo"] = {
+        "url": "https://fastapi.tiangolo.com/img/logo-margin/logo-teal.png"
+    }
+    api.openapi_schema = openapi_schema
+    return api.openapi_schema
+
+api.openapi = custom_openapi
+
 
 uvicorn.run(api, host="127.0.0.1", port=8000)

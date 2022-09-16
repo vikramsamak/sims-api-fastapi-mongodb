@@ -58,7 +58,7 @@ Takes student info to update previous students info in database.
 ```
 | Parameter | Type  | Description                                             |
 | :-------- | :---- | :-------------------------------------------------------|
-| `roll_no` | `int` | **Required**. Roll No of student to delete his/her info. |
+| `roll_no` | `int` | **Required**. Roll No of student to delete his/her info.|
 
 Takes student roll no and delete his/her info. from database.
 

@@ -18,7 +18,7 @@ An API made with FastAPI python module to perform CRUD operations on database.
 
 ## Feedback
 
-If you have any feedback, please reach out to us at vikramsamak02@gmail.com
+If you have any feedback, please reach out to me at vikramsamak02@gmail.com
 ## Authors
 
 - [@vikramsamak]https://github.com/vikramsamak)

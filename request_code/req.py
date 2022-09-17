@@ -20,7 +20,7 @@ def switch_case():
 def post():
     url = "http://127.0.0.1:8000/enterstudentinfo"
 
-    ro_no = int(input("Enter Roll No:"))
+    ro_no = int(input("\nEnter Roll No:"))
     n = input("Enter Name:")
     c = input("Enter Class:")
 
@@ -32,7 +32,7 @@ def post():
 # GET REQUEST FOR GETTING STUDENT INFO.
 def get():
     url = "http://127.0.0.1:8000/readstudentinfo"
-    Roll_no = int(input("Enter Roll No:"))
+    Roll_no = int(input("\nEnter Roll No:"))
     data_to_get = {"roll_no": Roll_no}
     res = requests.request("GET", url=url, params=data_to_get)
     print("Response:", res.json())
@@ -42,7 +42,7 @@ def get():
 
 def update():
     url = "http://127.0.0.1:8000/updatestudentinfo"
-    srn = int(input("Enter A Roll No To Update Its Data:"))
+    srn = int(input("\nEnter A Roll No To Update Its Data:"))
     ro_no = int(input("Enter Roll No To Update:"))
     n = input("Enter Name To Update:")
     c = input("Enter Class To Update:")
@@ -56,7 +56,7 @@ def update():
 
 def delete():
     url = "http://127.0.0.1:8000/deletestudentinfo"
-    r_no = int(input("Enter Roll No Of Thr Student :"))
+    r_no = int(input("\nEnter Roll No Of Thr Student :"))
     data_to_delete = {"roll_no": r_no}
     res = requests.request("DELETE", url=url, params=data_to_delete)
     print("Response:", res.json())

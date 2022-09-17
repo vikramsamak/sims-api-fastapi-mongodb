@@ -25,19 +25,21 @@ api = FastAPI()
 # CREATE OPRATION
 
 
-@api.post("/enterstudentinfo",tags=["Endpoints"])
+@api.post("/enterstudentinfo", tags=["Endpoints"])
 def enter_studentinfo(entry: Studentinfo):
     stdinfo = {"Roll No": entry.roll_no, "Name": entry.name, "Class": entry.cl}
-    collection.insert_one(stdinfo)
-    return {
-        str("Stored 1 Record")
-
-    }
+    e=collection.insert_one(stdinfo)
+    if e.acknowledged == True :
+        return str("Stored 1 Record")
+    else:
+        return str("Something Went Wrong")
+    
+    
 
 # READ OPERATION
 
 
-@api.get("/readstudentinfo",tags=["Endpoints"])
+@api.get("/readstudentinfo", tags=["Endpoints"])
 async def read_studentinfo(roll_no: int):
     data = collection.find_one({"Roll No": roll_no}, {"_id": False})
     try:
@@ -47,30 +49,35 @@ async def read_studentinfo(roll_no: int):
             "Class": data["Class"]
         }
     except:
-        return {
-            str("Something Went Wrong")
-        }
+        return str("Something Went Wrong")
+    
 
 # UPDATE OPERATION
 
 
-@api.put("/updatestudentinfo",tags=["Endpoints"])
+@api.put("/updatestudentinfo", tags=["Endpoints"])
 async def update_studentinfo(rno: int, dtu: Studentinfo):
-    collection.update_one({"Roll No": rno}, {"$set": {"Roll No": dtu.roll_no, "Name": dtu.name, "Class": dtu.cl}})
-    return {
-        str("Updated 1 Record")
-    }
+    u = collection.update_one({"Roll No": rno}, {
+                              "$set": {"Roll No": dtu.roll_no, "Name": dtu.name, "Class": dtu.cl}})
+    if u.modified_count > 0:
+        return str("Updated 1 Record")
+    else:
+        return str("Something Went Wrong")
 
 # DELETE OPERATION
 
 
-@api.delete("/deletestudentinfo",tags=["Endpoints"])
+@api.delete("/deletestudentinfo", tags=["Endpoints"])
 async def delete_studentinfo(roll_no: int):
     d = collection.delete_one({"Roll No": roll_no})
-    return {
-        str("Deleted 1 record")
-    }
+    if d.deleted_count > 0:
+        return str("Deleted 1 Record")
+    else:
+        return str("Something Went Wrong")
+        
 # DOCS PAGE CUSTOMIZATION
+
+
 def custom_openapi():
     if api.openapi_schema:
         return api.openapi_schema
@@ -86,6 +93,7 @@ def custom_openapi():
     }
     api.openapi_schema = openapi_schema
     return api.openapi_schema
+
 
 api.openapi = custom_openapi
 

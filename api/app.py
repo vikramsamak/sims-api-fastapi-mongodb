@@ -63,14 +63,14 @@ async def update_studentinfo(rno: int, dtu: Studentinfo):
 
 # DELETE OPERATION
 
-# DOCS PAGE CUSTOMIZATION
+
 @api.delete("/deletestudentinfo",tags=["Endpoints"])
 async def delete_studentinfo(roll_no: int):
     d = collection.delete_one({"Roll No": roll_no})
     return {
         str("Deleted 1 record")
     }
-
+# DOCS PAGE CUSTOMIZATION
 def custom_openapi():
     if api.openapi_schema:
         return api.openapi_schema
